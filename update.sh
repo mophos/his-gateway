@@ -1,4 +1,12 @@
-#!/bin/bash
+if ! ["$(git remote -v)" ]; then
+    cd ..
+    mv his-gateway his-gateway-no-git
+    git clone https://github.com/mophos/his-gateway.git
+    cp -r his-gateway-no-git/cert ./his-gateway/.
+    cp -r his-gateway-no-git/data ./his-gateway/.
+    cp -r his-gateway-no-git/hisgateway-docker ./his-gateway/.
+fi
+
 ./load_cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     # git checkout -- .
