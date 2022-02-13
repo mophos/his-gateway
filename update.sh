@@ -1,4 +1,4 @@
-if ! [" $(git remote -v)" ]; then
+if ! [ "$(git remote -v)" ]; then
     cd ..
     rm -rf ../his-gateway-no-git
     mv his-gateway his-gateway-no-git
