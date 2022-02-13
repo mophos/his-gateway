@@ -10,5 +10,6 @@ if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]
     docker pull mophos/hisgateway-history-api
     docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
 else
-    echo 'ไม่พบไฟล์ docker-compose.yaml'
+    echo 'git clone hisgateway-docker'  
+    git clone https://github.com/mophos/hisgateway-docker.git
 fi

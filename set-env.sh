@@ -1,3 +1,6 @@
+if ! [ -d "./hisgateway-docker" ]; then 
+    git clone https://github.com/mophos/hisgateway-docker.git
+fi
 if ! [ -f "./hisgateway-docker/.env" ]; then 
     echo 'not hisdoc'
     echo 'รหัสโรงพยาบาล'

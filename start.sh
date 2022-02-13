@@ -1,4 +1,4 @@
-if [ $1 == "help"]; then
+if [ $1 == "help" ]; then
     echo "option sk = skip update"
     exit 1
 fi
