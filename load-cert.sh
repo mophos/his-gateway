@@ -69,7 +69,7 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
         unzip cert.zip -d cert/
         rm -rf cert.zip
         password=`cat cert/password*`
-        sed -e "s/PASSWORD=.*/PASSWORD=$password/g" "./hisgateway-docker/.env"
+        sed -i -e "s/PASSWORD=.*/PASSWORD=$password/g" "./hisgateway-docker/.env"
     else 
         echo "Certificate not found contact ADMIN"
     fi
