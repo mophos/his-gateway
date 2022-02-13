@@ -1,7 +1,8 @@
 if [  "$(docker ps -a)" ]; then
   if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"  ]]; then
     if [[ $option =~ ^(sk)$ && -f "./cert/version" ]]; then
-          docker-compose -f ./hisgateway-docker/docker-compose.yaml down
+        cd hisgateway-docker
+        docker-compose down
       fi
   else
     echo 'Please confit ENV  ./set-env.sh'
