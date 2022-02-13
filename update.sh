@@ -12,12 +12,13 @@ fi
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     # git checkout -- .
     git pull
-    docker-compose -f ./hisgateway-docker/docker-compose.yaml down
-    git -C ./hisgateway-docker pull
+    cd hisgateway-docker
+    docker-compose down
+    git pull
     docker pull mophos/hisgateway-client-web
     docker pull mophos/hisgateway-client-api
     docker pull mophos/hisgateway-history-api
-    docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
+    docker-compose up -d
 else
     echo 'git clone hisgateway-docker'  
     git clone https://github.com/mophos/hisgateway-docker.git
