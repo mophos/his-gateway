@@ -1,4 +1,3 @@
-#!/bin/bash
 if ! [ -f "./hisgateway-docker/.env" ]; then 
     echo 'not hisdoc'
     echo 'รหัสโรงพยาบาล'

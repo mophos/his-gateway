@@ -1,4 +1,3 @@
-#!/bin/bash
 
 if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
   if ! [ -x "$(command -v curl)" ]; then 
@@ -58,4 +57,4 @@ if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
   fi
 else 
   echo 'install please.'
-if
+fi
