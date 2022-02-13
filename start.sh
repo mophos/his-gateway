@@ -6,15 +6,13 @@ fi
 
 
 
-if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env" && -f "./cert/version" ]]; then
-   if [[ $option =~ ^(sk)$ ]]; 
-    then
-    docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
+if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"  ]]; then
+   if [[ $option =~ ^(sk)$ && -f "./cert/version" ]]; then
+        docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
     else
     ./update.sh   
     docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
     fi
 else
-  ./set-env.sh
-  ./start.sh
+  echo 'Please confit ENV  ./set-env.sh'
 fi

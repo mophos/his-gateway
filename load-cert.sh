@@ -16,25 +16,25 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
     --silent -d \
     --url https://hisgateway.moph.go.th/api/login \
     --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data password=${PASSWORD_ICTPORTAIL} \
+    --data password=${PASSWORD_ICTPORTAL} \
     --data username=${EMAIL_ICTPORTAL}
   )
 
   token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
 
   if [ -f "./cert/version" ]; then
-  version=`cat ./cert/version`
-  loadtype="1"
-  response_check_v=$(curl --request POST \
+    version=`cat ./cert/version`
+    loadtype="1"
+    response_check_v=$(curl --request POST \
     --silent -d \
     --url https://hisgateway.moph.go.th/api/api/sh/cert/check \
     --header 'Content-Type: application/x-www-form-urlencoded' \
     --data token=${token} \
     --data version=${version}
-  )
+     )
   else
    loadtype="2"
-   response_check_v=$(curl --request POST \
+   response_check_v=$(curl --request GET \
     --silent -d \
     --url https://hisgateway.moph.go.th/api/api/cert/check \
     --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -68,6 +68,8 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
         rm -rf cert/*
         unzip cert.zip -d cert/
         rm -rf cert.zip
+        password=`cat cert/password*`
+        sed -e "s/PASSWORD=.*/PASSWORD=$password/g" "./hisgateway-docker/.env"
     else 
         echo "Certificate not found contact ADMIN"
     fi

@@ -1,7 +1,8 @@
-if ! [ -d "./hisgateway-docker" ]; then 
+MODE=$1
+if ! [ -d "./hisgateway-docker" ]; then
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
-if ! [ -f "./hisgateway-docker/.env" ]; then 
+if ! [ -f "./hisgateway-docker/.env" ]  || [[ $MODE =~ ^(set)$ ]]; then
     echo 'Config..'
     echo 'รหัสโรงพยาบาล'
     read -p 'HOSPCODE: ' HOSPCODE
@@ -16,9 +17,9 @@ if ! [ -f "./hisgateway-docker/.env" ]; then
     echo 'ตั้งค่า E-mail ict portail'
     read -p 'E-mail: ' EMAIL_ICTPORTAL
     echo 'ตั้งค่า Password ict portail'
-    read -p 'Password: ' PASSWORD_ICTPORTAIL
+    read -p 'Password: ' PASSWORD_ICTPORTAL
 
-    cat << EOF > ./hisgateway-docker/.env
+    cat <<EOF >./hisgateway-docker/.env
 # แก้ไข 'xxxxx' ให้เป็น รหัสโรงพยาบาล
 HOSPCODE=${HOSPCODE}
 
@@ -26,7 +27,7 @@ HOSPCODE=${HOSPCODE}
 GROUP=${GROUP}
 
 # แก้ไข 'PPPPP' ให้เป็น รหัสของ cert (ในไฟล์ 'password_xxxxx.txt')
-PASSWORD=
+PASSWORD=PPPPP
 
 # ตั้งค่า 'port' สำหรับเปิดเว็บ
 PORT=${PORT}
@@ -42,6 +43,8 @@ SECRET_KEY=${SECRET_KEY}
 
 EMAIL_ICTPORTAL=${EMAIL_ICTPORTAL}
 
-PASSWORDPORTAL=${PASSWORD_ICTPORTAIL}
+PASSWORD_ICTPORTAL=${PASSWORD_ICTPORTAL}
 EOF
+else
+    echo 'Set new ENV type "./set-env.sh set"'
 fi
