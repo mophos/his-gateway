@@ -17,7 +17,7 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
     --url https://hisgateway.moph.go.th/api/login \
     --header 'Content-Type: application/x-www-form-urlencoded' \
     --data password=${PASSWORD_ICTPORTAIL} \
-    --data username=${EMAIL_ICTPORTAIL}
+    --data username=${EMAIL_ICTPORTAL}
   )
 
   token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")

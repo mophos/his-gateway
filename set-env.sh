@@ -2,7 +2,7 @@ if ! [ -d "./hisgateway-docker" ]; then
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
 if ! [ -f "./hisgateway-docker/.env" ]; then 
-    echo 'not hisdoc'
+    echo 'Config..'
     echo 'รหัสโรงพยาบาล'
     read -p 'HOSPCODE: ' HOSPCODE
     echo 'ใช้ค่า =1 เปลี่ยนเมื่อโรงพยาบาลมีมากกว่า 1 db ในการส่งข้อมูล'
@@ -14,34 +14,34 @@ if ! [ -f "./hisgateway-docker/.env" ]; then
     echo 'ตั้งค่า SECRET_KEY เป็นอะไรก็ได้ (ex. 123456)'
     read -p 'SECRET_KEY: ' SECRET_KEY
     echo 'ตั้งค่า E-mail ict portail'
-    read -p 'E-mail: ' EMAIL_ICTPORTAIL
+    read -p 'E-mail: ' EMAIL_ICTPORTAL
     echo 'ตั้งค่า Password ict portail'
     read -p 'Password: ' PASSWORD_ICTPORTAIL
 
     cat << EOF > ./hisgateway-docker/.env
-        # แก้ไข 'xxxxx' ให้เป็น รหัสโรงพยาบาล
-        HOSPCODE=${HOSPCODE}
+# แก้ไข 'xxxxx' ให้เป็น รหัสโรงพยาบาล
+HOSPCODE=${HOSPCODE}
 
-        # 'GROUP=1' เปลี่ยนเมื่อ 1 รพ.สร้างมากกว่า 1 group
-        GROUP=${GROUP}
+# 'GROUP=1' เปลี่ยนเมื่อ 1 รพ.สร้างมากกว่า 1 group
+GROUP=${GROUP}
 
-        # แก้ไข 'PPPPP' ให้เป็น รหัสของ cert (ในไฟล์ 'password_xxxxx.txt')
-        PASSWORD=
+# แก้ไข 'PPPPP' ให้เป็น รหัสของ cert (ในไฟล์ 'password_xxxxx.txt')
+PASSWORD=
 
-        # ตั้งค่า 'port' สำหรับเปิดเว็บ
-        PORT=${PORT}
+# ตั้งค่า 'port' สำหรับเปิดเว็บ
+PORT=${PORT}
 
-        # path ที่เก็บไฟล์ cert แนะนำให้เอาไว้นอกโฟวเดอร์ hisgateway-docker
-        PATH_CERT=../cert
+# path ที่เก็บไฟล์ cert แนะนำให้เอาไว้นอกโฟวเดอร์ hisgateway-docker
+PATH_CERT=../cert
 
-        PATH_DATA=../data
+PATH_DATA=../data
 
-        BROKER_URL=kafka1.moph.go.th:19093
+BROKER_URL=kafka1.moph.go.th:19093
 
-        SECRET_KEY=${SECRET_KEY}
+SECRET_KEY=${SECRET_KEY}
 
-        EMAIL_ICTPORTAIL=${EMAIL_ICTPORTAIL}
+EMAIL_ICTPORTAL=${EMAIL_ICTPORTAL}
 
-        PASSWORD_ICTPORTAIL=${PASSWORD_ICTPORTAIL}
+PASSWORDPORTAL=${PASSWORD_ICTPORTAIL}
 EOF
 fi

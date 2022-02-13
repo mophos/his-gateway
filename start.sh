@@ -1,9 +1,9 @@
-if [ $1 == "help" ]; then
+option=$1
+if [[ $option =~ ^(help)$ ]]; then
     echo "option sk = skip update"
     exit 1
 fi
 
-option=$1
 
 
 if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env" && -f "./cert/version" ]]; then
@@ -15,5 +15,6 @@ if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env" && -f "./cert/ve
     docker-compose -f ./hisgateway-docker/docker-compose.yaml up -d
     fi
 else
-   echo 'install please.'
+  ./set-env.sh
+  ./start.sh
 fi
