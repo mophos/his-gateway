@@ -1,6 +1,6 @@
 #!/bin/bash
 ./load_cert.sh
-if [ -d './hisgateway-docker'] then
+if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     git checkout -- .
     git pull
     docker-compose -f ./hisgateway-docker/docker-compose.yaml down

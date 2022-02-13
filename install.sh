@@ -1,4 +1,3 @@
-#!/bin/bash
 if ! [ -x "$(command -v git)" ]; then
     echo 'install git'
     sudo yum install -y git
@@ -29,5 +28,5 @@ if ! [ -d "./hisgateway-docker" ]; then
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
 ./set_env.sh
-echo 'install success.'
+echo 'install Git,Docker,Docker-compose success.'
 echo 'run start.sh please.'

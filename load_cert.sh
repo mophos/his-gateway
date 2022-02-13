@@ -1,5 +1,4 @@
-
-if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
+if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
   if ! [ -x "$(command -v curl)" ]; then 
   yum install curl -y
   fi
@@ -10,7 +9,7 @@ if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
 
   set -o allexport; source "./hisgateway-docker/.env"; set +o allexport
 
-  version=`cat ./cert/version`
+
 
   response=$(curl --request POST \
     --silent -d \
@@ -22,24 +21,39 @@ if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
 
   token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
 
-  response_check_v=$(curl --request GET \
+  if [ -f "./cert/version" ]; then
+  version=`cat ./cert/version`
+  loadtype="1"
+  response_check_v=$(curl --request POST \
+    --silent -d \
+    --url https://hisgateway.moph.go.th/api/api/sh/cert/check \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data token=${token} \
+    --data version=${version}
+  )
+  else
+   loadtype="2"
+   response_check_v=$(curl --request POST \
     --silent -d \
     --url https://hisgateway.moph.go.th/api/api/cert/check \
     --header 'Content-Type: application/x-www-form-urlencoded' \
     --data token=${token}
-    --data version=${version}
   )
+  fi
 
   check_v=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
   if [ $check_v == 'True' ]; then
-    response_check=$(curl --request GET \
-      --silent -d \
-      --url https://hisgateway.moph.go.th/api/api/cert/check \
-      --header 'Content-Type: application/x-www-form-urlencoded' \
-      --data token=${token}
-    )
+    if [ $loadtype == '1' ]; then
+      echo "Certificate New Version."
+    fi
+    # response_check=$(curl --request GET \
+    #   --silent -d \
+    #   --url https://hisgateway.moph.go.th/api/api/sh/cert/check \
+    #   --header 'Content-Type: application/x-www-form-urlencoded' \
+    #   --data token=${token}
+    # )
 
-    check_file=$( echo $response_check | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+    check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
 
     if [ $check_file == 'True' ]; then
         echo "DOWNLOAD CERT"
@@ -47,13 +61,18 @@ if [ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"]; then
         --url https://hisgateway.moph.go.th/api/api/cert \
         --header 'Content-Type: application/x-www-form-urlencoded' \
         --data token=${token} -o cert.zip
+        if ! [ -d "./cert" ]; then
         mkdir cert 
+        fi
+        rm -rf cert/*
         unzip cert.zip -d cert/
         rm -rf cert.zip
     else 
-        echo "ไม่พบไฟล์ cert กรุณาติดต่อเจ้าหน้าที่"
+        echo "ไม่พบไฟล์ Certificate กรุณาติดต่อเจ้าหน้าที่"
         # echo $check_file
     fi
+  else
+    echo "ไม่พบ Certificate เวอร์ชั่นใหม่"
   fi
 else 
   echo 'install please.'
