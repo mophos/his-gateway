@@ -8,7 +8,7 @@ if ! [ "$(git remote -v)" ]; then
     cp -r his-gateway-no-git/hisgateway-docker ./his-gateway/.
 fi
 
-./load_cert.sh
+./load-cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     # git checkout -- .
     git pull

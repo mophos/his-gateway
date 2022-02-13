@@ -33,7 +33,7 @@ if  [ "$(uname -a | grep el7)" ]; then
         git clone https://github.com/mophos/hisgateway-docker.git
     fi
 
-    ./set_env.sh
+    ./set-env.sh
     echo 'install Git,Docker,Docker-compose success.'
     echo 'run start.sh please.'
 else
