@@ -1,10 +1,11 @@
+echo 'Start Download Certificate...'
 if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
   if ! [ -x "$(command -v curl)" ]; then 
-  yum install curl -y
+    yum install curl -y
   fi
 
   if ! [ -x "$(command -v unzip)" ]; then 
-  yum install unzip -y
+    yum install unzip -y
   fi
 
   set -o allexport; source "./hisgateway-docker/.env"; set +o allexport
@@ -68,11 +69,10 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
         unzip cert.zip -d cert/
         rm -rf cert.zip
     else 
-        echo "ไม่พบไฟล์ Certificate กรุณาติดต่อเจ้าหน้าที่"
-        # echo $check_file
+        echo "Certificate not found contact ADMIN"
     fi
   else
-    echo "ไม่พบ Certificate เวอร์ชั่นใหม่"
+    echo "Certificate not found new version."
   fi
 else 
   echo 'install please.'
