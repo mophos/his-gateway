@@ -1,14 +1,24 @@
 option=$1
-
-if [  "$(docker ps -a)" ]; then
-    if [[ $option =~ ^(help)$ ]]; then
-        echo "option sk = skip update"
+if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
+        echo "## Start HIS-Gateway ##"
+        echo;
+        echo "usage: ./start.sh [--help] [--only]"
+        echo;
+        echo "help\t list about concept guides"
+        echo "only\t start only.(skip update)"
         exit 1
-    fi
+fi
+
+if ! [[ $option =~ ^(help)$ || $option =~ ^(--help)$ || $option =~ ^(--skip)$ || $option =~ "" ]]; then
+    echo "Not found option"
+    ./start.sh --help
+    exit 1;
+fi
+if [  "$(docker ps -a)" ]; then
 
     if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"  ]]; then
             cd hisgateway-docker
-        if [[ $option =~ ^(sk)$ && -f "./cert/version" ]]; then
+        if [[ $option =~ ^(--only)$ && -f "./cert/version" ]]; then
             docker-compose  up -d
         else
             ./update.sh   

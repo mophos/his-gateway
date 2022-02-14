@@ -1,3 +1,15 @@
+option=$1
+if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
+        echo "## Install HIS-Gateway ##"
+        echo "install.sh for centOS7,CentOS8,Ubuntu.  Other please Manual Install git,docker,docker-compose";
+        echo;
+        echo "usage: ./install.sh [--help]"
+        echo;
+        echo "help\t list about concept guides"
+        exit 1
+fi
+
+
 if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -a | grep Ubuntu)" ]; then
     if  [ "$(uname -a | grep el7)" ]; then
         if ! [ -x "$(command -v git)" ]; then
