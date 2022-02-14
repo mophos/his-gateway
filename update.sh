@@ -9,6 +9,7 @@ if ! [ "$(git remote -v)" ]; then
     cd his-gateway
 fi
 
+./load-cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     # git checkout -- .
     git pull
@@ -23,6 +24,4 @@ else
     echo 'git clone hisgateway-docker'  
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
-
-
 ./load-cert.sh
