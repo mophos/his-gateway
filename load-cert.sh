@@ -8,13 +8,21 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
     if ! [ -x "$(command -v unzip)" ]; then 
       yum install unzip -y
     fi
-  else
+  elif [ "$(uname -a | grep Ubuntu)" ]; then
     if ! [ -x "$(command -v curl)" ]; then 
       apt-get install curl
     fi
 
     if ! [ -x "$(command -v unzip)" ]; then 
       apt-get install unzip
+    fi
+  elif [ "$(uname -a | grep el8)" ]; then
+    if ! [ -x "$(command -v curl)" ]; then 
+      dnf install curl -y
+    fi
+
+    if ! [ -x "$(command -v unzip)" ]; then 
+      dnf install unzip -y
     fi
   fi
  

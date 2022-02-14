@@ -1,8 +1,10 @@
 if ! [ -x "$(command -v nc)" ]; then
     if  [ "$(uname -a | grep el7)" ]; then
         yum install nc -y
-    else
+    elif [ "$(uname -a | grep Ubuntu)" ]; then
        apt-get install nc
+    elif [ "$(uname -a | grep el8)" ]; then
+       dnf install nc -y
     fi
 fi
 echo "If show succeeded! is work."
