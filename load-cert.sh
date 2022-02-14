@@ -78,6 +78,7 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
     fi
   else
     echo 'Login failed';
+    exit 1
   fi
 else 
   echo 'install please.'
