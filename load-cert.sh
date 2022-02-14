@@ -1,44 +1,50 @@
 echo 'Start Download Certificate...'
 if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
-  if ! [ -x "$(command -v curl)" ]; then 
-    yum install curl -y
-  fi
+  if  [ "$(uname -a | grep el7)" ]; then
+     if ! [ -x "$(command -v curl)" ]; then 
+      yum install curl -y
+    fi
 
-  if ! [ -x "$(command -v unzip)" ]; then 
-    yum install unzip -y
+    if ! [ -x "$(command -v unzip)" ]; then 
+      yum install unzip -y
+    fi
+  elif [ "$(uname -a | grep Ubuntu)" ]; then
+    if ! [ -x "$(command -v curl)" ]; then 
+      apt-get install curl
+    fi
+
+    if ! [ -x "$(command -v unzip)" ]; then 
+      apt-get install unzip
+    fi
+  elif [ "$(uname -a | grep el8)" ]; then
+    if ! [ -x "$(command -v curl)" ]; then 
+      dnf install curl -y
+    fi
+
+    if ! [ -x "$(command -v unzip)" ]; then 
+      dnf install unzip -y
+    fi
   fi
+ 
 
   set -o allexport; source "./hisgateway-docker/.env"; set +o allexport
-
-
-
-  response=$(curl --request POST \
-    --silent -d \
-    --url https://hisgateway.moph.go.th/api/login \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data password=${PASSWORD_ICTPORTAL} \
-    --data username=${EMAIL_ICTPORTAL}
-  )
-  checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
-  if [ $checkLogin == 'True' ]; then
-    token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
-    if [ -f "./cert/version" ]; then
+  if [ -f "./cert/version" ]; then
       version=`cat ./cert/version`
       loadtype="1"
       response_check_v=$(curl --request POST \
       --silent -d \
-      --url https://hisgateway.moph.go.th/api/api/sh/cert/check \
+      --url https://hisgateway.moph.go.th/api/sh/cert/check \
       --header 'Content-Type: application/x-www-form-urlencoded' \
-      --data token=${token} \
+      --data hospcode=${HOSPCODE} \
       --data version=${version}
       )
     else
     loadtype="2"
     response_check_v=$(curl --request GET \
       --silent -d \
-      --url https://hisgateway.moph.go.th/api/api/cert/check \
+      --url https://hisgateway.moph.go.th/api/cert/check \
       --header 'Content-Type: application/x-www-form-urlencoded' \
-      --data token=${token}
+      --data hospcode=${HOSPCODE}
     )
     fi
 
@@ -47,17 +53,24 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
       if [ $loadtype == '1' ]; then
         echo "Certificate New Version."
       fi
-      # response_check=$(curl --request GET \
-      #   --silent -d \
-      #   --url https://hisgateway.moph.go.th/api/api/sh/cert/check \
-      #   --header 'Content-Type: application/x-www-form-urlencoded' \
-      #   --data token=${token}
-      # )
 
       check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
 
       if [ $check_file == 'True' ]; then
-          echo "DOWNLOAD CERT"
+          echo "Download certificate..."
+          read -p "E-mail ict portal ($EMAIL_ICTPORTAL): " email
+          read -s -p "Password ict portal : " password
+          email="${email:=`echo $EMAIL_ICTPORTAL`}"
+          response=$(curl --request POST \
+          --silent -d \
+          --url https://hisgateway.moph.go.th/api/login \
+          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --data username=${email} \
+          --data password=${password}
+        )
+        checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+        if [ $checkLogin == 'True' ]; then
+          token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
           curl --request GET \
           --url https://hisgateway.moph.go.th/api/api/cert \
           --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -70,18 +83,18 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
           rm -rf cert.zip
           password=`cat cert/password*`
           sed -i -e "s/PASSWORD=.*/PASSWORD=$password/g" "./hisgateway-docker/.env"
+        else
+          echo '######################';
+          echo 'Login failed';
+          echo '######################';
+          exit 1
+        fi 
       else 
           echo "Certificate not found contact ADMIN"
       fi
     else
       echo "Certificate not found new version."
     fi
-  else
-    echo '######################';
-    echo 'Login failed';
-    echo '######################';
-    exit 1
-  fi
 else 
-  echo 'install please.'
+  echo './install.sh or ./set-env.sh'
 fi

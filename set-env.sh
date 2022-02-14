@@ -1,34 +1,69 @@
-MODE=$1
-if [[ $option =~ ^(help)$ ]]; then
-        echo "set config HIS-Gateway  option: set=force set env"
+option=$1
+if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
+        echo "## Set config HIS-Gateway ##"
+        echo;
+        echo "usage: ./set-env.sh [--help] [--show] [--force]"
+        echo;
+        echo "help\t list about concept guides"
+        echo "show\t show config"
+        echo "force\t force set config"
+        exit 1
+fi
+
+if [[ $option =~ ^(show)$ ]]; then
+        if  [ -f "./hisgateway-docker/.env" ] ; then
+            cat ./hisgateway-docker/.env
+        else
+            echo "No set config.Please ./set-env.sh"
+        fi
         exit 1
 fi
 
 if ! [ -d "./hisgateway-docker" ]; then
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
-if ! [ -f "./hisgateway-docker/.env" ]  || [[ $MODE =~ ^(set)$ ]]; then
+if ! [ -f "./hisgateway-docker/.env" ]  || [[ $option =~ ^(set)$ ]] || [[ $option =~ ^(--force)$ ]]; then
+    if [ -f "./hisgateway-docker/.env" ]; then
+        hospcode=`sed '/^HOSPCODE=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        group=`sed '/^GROUP=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        port=`sed '/^PORT=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        secretkey=`sed '/^SECRET_KEY=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        email=`sed '/^EMAIL_ICTPORTAL=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        
+    else
+        hospcode="12345"
+        group="1"
+        port="80"
+        secretkey="$(echo $(date +%s) | md5sum | head -c 20; echo;)"
+        email=""
+    fi
     echo 'Config..'
     echo 'รหัสโรงพยาบาล'
-    read -p 'HOSPCODE: ' HOSPCODE
+    read -p "HOSPCODE (defalut: $hospcode): " HOSPCODE
     echo 'ใช้ค่า =1 เปลี่ยนเมื่อโรงพยาบาลมีมากกว่า 1 db ในการส่งข้อมูล'
-    read -p 'GROUP: ' GROUP
+    read -p "GROUP (defalut: $group): " GROUP
     # echo 'รหัสของ cert (ในไฟล์ password_xxxxx.txt)'
     # read -p 'PASSWORD: ' PASSWORD
     echo 'ตั้งค่า port ที่จะเปิดเว็บ'
-    read -p 'PORT: ' PORT
+    read -p "PORT (defalut: $port): " PORT
     echo 'ตั้งค่า SECRET_KEY เป็นอะไรก็ได้ (ex. 123456)'
-    read -p 'SECRET_KEY: ' SECRET_KEY
-    echo 'ตั้งค่า E-mail ict portal'
-    read -p 'E-mail: ' EMAIL_ICTPORTAL
-    echo 'ตั้งค่า Password ict portal'
-    read -p 'Password: ' PASSWORD_ICTPORTAL
+    read -p "SECRET_KEY (defalut: $secretkey): " SECRET_KEY
+    read -p "E-mail ict portal: (defalut: $email)" EMAIL_ICTPORTAL
+    # echo 'ตั้งค่า Password ict portal'
+    # read -p 'Password: ' PASSWORD_ICTPORTAL
+
+    HOSPCODE="${HOSPCODE:=`echo $hospcode`}"
+    GROUP="${GROUP:=`echo $group`}"
+    PORT="${PORT:=`echo $port`}"
+    SECRET_KEY="${SECRET_KEY:=`echo $secretkey`}"
+    EMAIL_ICTPORTAL="${EMAIL_ICTPORTAL:=`echo $email`}"
+
 
     cat <<EOF >./hisgateway-docker/.env
 # แก้ไข 'xxxxx' ให้เป็น รหัสโรงพยาบาล
 HOSPCODE=${HOSPCODE}
 
-# 'GROUP=1' เปลี่ยนเมื่อ 1 รพ.สร้างมากกว่า 1 group
+# group เปลี่ยนเมื่อติดตั้งหลายเครื่องหรือต้องการเปลี่ยน config
 GROUP=${GROUP}
 
 # แก้ไข 'PPPPP' ให้เป็น รหัสของ cert (ในไฟล์ 'password_xxxxx.txt')
@@ -48,8 +83,12 @@ SECRET_KEY=${SECRET_KEY}
 
 EMAIL_ICTPORTAL=${EMAIL_ICTPORTAL}
 
-PASSWORD_ICTPORTAL=${PASSWORD_ICTPORTAL}
 EOF
+echo;
+echo "Please Open firewall for open website."
+echo;
+echo "Ex. \tfirewall-cmd --permanent --add-port=${PORT}/tcp"
+echo "\tfirewall-cmd --reload"
 else
-    echo 'Set new ENV type "./set-env.sh set"'
+    echo 'Set new ENV type "./set-env.sh --force"'
 fi
