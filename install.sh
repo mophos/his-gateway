@@ -1,25 +1,50 @@
-if  [ "$(uname -a | grep el7)" ]; then
-    if ! [ -x "$(command -v git)" ]; then
-        echo 'install git'
-        sudo yum install -y git
-        cd ..
-        mv -r his-gateway his-gateway-no-git
-        git clone https://github.com/mophos/his-gateway.git
-        cd his-gateway
-    fi
+if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep Ubuntuxx)" ]; then
+    if  [ "$(uname -a | grep el7)" ]; then
+        if ! [ -x "$(command -v git)" ]; then
+            echo 'install git'
+            sudo yum install -y git
+            cd ..
+            mv -r his-gateway his-gateway-no-git
+            git clone https://github.com/mophos/his-gateway.git
+            cd his-gateway
+        fi
 
-    if ! [ -x "$(command -v python)" ]; then
-        sudo yum install python -y
-    fi
+        if ! [ -x "$(command -v python)" ]; then
+            sudo yum install python -y
+        fi
 
-    if ! [ -x "$(command -v docker)" ]; then
-        echo 'install docker'
-        sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
-        sudo yum install -y yum-utils
-        sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-        sudo yum install -y docker-ce docker-ce-cli containerd.io
-        sudo systemctl start docker
-        sudo systemctl enable docker
+        if ! [ -x "$(command -v docker)" ]; then
+            echo 'install docker'
+            sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+            sudo yum install -y yum-utils
+            sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+            sudo yum install -y docker-ce docker-ce-cli containerd.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+        fi
+    else
+         if ! [ -x "$(command -v git)" ]; then
+            echo 'install git'
+            sudo apt-get install -y git
+            cd ..
+            mv -r his-gateway his-gateway-no-git
+            git clone https://github.com/mophos/his-gateway.git
+            cd his-gateway
+        fi
+
+        if ! [ -x "$(command -v python)" ]; then
+            sudo apt-get install python -y
+        fi
+
+        if ! [ -x "$(command -v docker)" ]; then
+            echo 'install docker'
+            sudo apt-get remove docker docker-engine docker.io containerd runc
+            sudo apt-get install ca-certificates curl gnupg lsb-release
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt-get update
+            sudo apt-get install docker-ce docker-ce-cli containerd.io
+        fi
     fi
 
     if ! [ -x "$(command -v docker-compose)" ]; then
