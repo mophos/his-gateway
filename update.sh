@@ -25,4 +25,3 @@ else
     echo 'git clone hisgateway-docker'  
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
-./load-cert.sh
