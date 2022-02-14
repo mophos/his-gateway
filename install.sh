@@ -1,4 +1,4 @@
-if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep Ubuntuxx)" ]; then
+if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -a | grep Ubuntu)" ]; then
     if  [ "$(uname -a | grep el7)" ]; then
         if ! [ -x "$(command -v git)" ]; then
             echo 'install git'
@@ -22,7 +22,29 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep Ubuntuxx)" ]; then
             sudo systemctl start docker
             sudo systemctl enable docker
         fi
-    else
+    elif [ "$(uname -a | grep el8)" ]; then
+        if ! [ -x "$(command -v git)" ]; then
+            echo 'install git'
+            sudo dnf install -y git
+            cd ..
+            mv -r his-gateway his-gateway-no-git
+            git clone https://github.com/mophos/his-gateway.git
+            cd his-gateway
+        fi
+
+        if ! [ -x "$(command -v python)" ]; then
+            sudo dnf install python -y
+        fi
+
+        if ! [ -x "$(command -v docker)" ]; then
+            echo 'install docker'
+            sudo dnf install -y unzip zip wget dialog git net-tools chrony 
+            sudo config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+            sudo install -y docker-ce docker-ce-cli containerd.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+        fi
+    elif [ "$(uname -a | grep Ubuntu)" ]; then
          if ! [ -x "$(command -v git)" ]; then
             echo 'install git'
             sudo apt-get install -y git
@@ -62,5 +84,5 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep Ubuntuxx)" ]; then
     echo 'install Git,Docker,Docker-compose success.'
     echo 'run start.sh please.'
 else
-    echo "Please use install.sh for centOS7 or Manual Install git,docker,docker-compose"
+    echo "Please use install.sh for centOS7,Ubuntu. Please Manual Install git,docker,docker-compose"
 fi
