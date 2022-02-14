@@ -20,6 +20,7 @@ if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]
     docker pull mophos/hisgateway-client-api
     docker pull mophos/hisgateway-history-api
     docker-compose up -d
+    cd ..
 else
     echo 'git clone hisgateway-docker'  
     git clone https://github.com/mophos/hisgateway-docker.git
