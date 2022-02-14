@@ -77,7 +77,9 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
       echo "Certificate not found new version."
     fi
   else
+    echo '######################';
     echo 'Login failed';
+    echo '######################';
     exit 1
   fi
 else 
