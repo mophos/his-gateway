@@ -1,4 +1,9 @@
 MODE=$1
+if [[ $option =~ ^(help)$ ]]; then
+        echo "set config HIS-Gateway  option: set=force set env"
+        exit 1
+fi
+
 if ! [ -d "./hisgateway-docker" ]; then
     git clone https://github.com/mophos/hisgateway-docker.git
 fi
@@ -14,9 +19,9 @@ if ! [ -f "./hisgateway-docker/.env" ]  || [[ $MODE =~ ^(set)$ ]]; then
     read -p 'PORT: ' PORT
     echo 'ตั้งค่า SECRET_KEY เป็นอะไรก็ได้ (ex. 123456)'
     read -p 'SECRET_KEY: ' SECRET_KEY
-    echo 'ตั้งค่า E-mail ict portail'
+    echo 'ตั้งค่า E-mail ict portal'
     read -p 'E-mail: ' EMAIL_ICTPORTAL
-    echo 'ตั้งค่า Password ict portail'
+    echo 'ตั้งค่า Password ict portal'
     read -p 'Password: ' PASSWORD_ICTPORTAL
 
     cat <<EOF >./hisgateway-docker/.env
