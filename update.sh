@@ -6,6 +6,7 @@ if ! [ "$(git remote -v)" ]; then
     cp -r his-gateway-no-git/cert ./his-gateway/.
     cp -r his-gateway-no-git/data ./his-gateway/.
     cp -r his-gateway-no-git/hisgateway-docker ./his-gateway/.
+    cd his-gateway
 fi
 
 ./load-cert.sh
