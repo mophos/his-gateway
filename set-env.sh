@@ -10,7 +10,7 @@ if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         exit 1
 fi
 
-if [[ $option =~ ^(show)$ ]]; then
+if [[ $option =~ ^(show)$ || $option =~ ^(--show)$ ]]; then
         if  [ -f "./hisgateway-docker/.env" ] ; then
             cat ./hisgateway-docker/.env
         else
