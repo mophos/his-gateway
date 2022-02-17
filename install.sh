@@ -53,7 +53,7 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
             echo 'install docker'
             sudo dnf install -y unzip zip wget dialog git net-tools chrony 
             sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-            sudo yum install -y --allowerasing docker-ce docker-ce-cli containerd.io
+            sudo dnf install -y --allowerasing docker-ce docker-ce-cli containerd.io
             sudo systemctl start docker
             sudo systemctl enable docker
         fi
