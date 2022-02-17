@@ -47,14 +47,20 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
       --data hospcode=${HOSPCODE}
     )
     fi
-
-    check_v=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+    if [ "$(uname -a | grep el8)" ]; then
+      check_v=$( echo $response_check_v | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
+    else
+      check_v=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+    fi
     if [ $check_v == 'True' ]; then
       if [ $loadtype == '1' ]; then
         echo "Certificate New Version."
       fi
-
-      check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+      if [ "$(uname -a | grep el8)" ]; then
+        check_file=$( echo $response_check_v | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
+      else
+        check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+      fi
 
       if [ $check_file == 'True' ]; then
           echo "Download certificate..."
@@ -68,9 +74,17 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
           --data username=${email} \
           --data password=${password}
         )
-        checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+        if [ "$(uname -a | grep el8)" ]; then
+          checkLogin=$( echo $response | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
+        else
+          checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+        fi
         if [ $checkLogin == 'True' ]; then
+          if [ "$(uname -a | grep el8)" ]; then
+          token=$( echo $response | python3 -c "import sys, json; print json.load(sys.stdin)['token']")
+          else
           token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
+          fi
           curl --request GET \
           --url https://hisgateway.moph.go.th/api/api/cert \
           --header 'Content-Type: application/x-www-form-urlencoded' \
