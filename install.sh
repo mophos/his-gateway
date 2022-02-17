@@ -45,8 +45,8 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
             cd his-gateway
         fi
 
-        if ! [ -x "$(command -v python)" ]; then
-            sudo dnf install python -y
+        if ! [ -x "$(command -v python3)" ]; then
+            sudo dnf install python3 -y
         fi
 
         if ! [ -x "$(command -v docker)" ]; then
