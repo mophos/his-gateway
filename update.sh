@@ -11,7 +11,7 @@ fi
 
 ./load-cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
-    # git checkout -- .
+    git checkout -- .
     git pull
     cd hisgateway-docker
     docker-compose down
