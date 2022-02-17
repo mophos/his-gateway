@@ -4,9 +4,9 @@ if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         echo;
         echo "usage: ./set-env.sh [--help] [--show] [--force]"
         echo;
-        echo "help\t list about concept guides"
-        echo "show\t show config"
-        echo "force\t force set config"
+        echo -e "help\t list about concept guides"
+        echo -e "show\t show config"
+        echo -e "force\t force set config"
         exit 1
 fi
 

@@ -5,8 +5,8 @@ if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         echo;
         echo "usage: ./start.sh [--help] [--only]"
         echo;
-        echo "help\t list about concept guides"
-        echo "only\t start only.(skip update)"
+        echo -e "help\t list about concept guides"
+        echo -e "only\t start only.(skip update)"
         exit 1
 fi
 
