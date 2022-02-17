@@ -6,7 +6,7 @@ if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         echo;
         echo "usage: ./install.sh [--help]"
         echo;
-        echo "help\t list about concept guides"
+        echo -e "help\t list about concept guides"
         exit 1
 fi
 
