@@ -1,4 +1,5 @@
 option=$1
+set -e
 if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         echo "## Start HIS-Gateway ##"
         echo;
