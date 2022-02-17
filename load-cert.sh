@@ -47,22 +47,15 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
       --data hospcode=${HOSPCODE}
     )
     fi
-    if [ "$(uname -a | grep el8)" ]; then
-      check_v=$( echo $response_check_v | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
-    else
-      check_v=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
-    fi
-    if [ $check_v == 'True' ]; then
+    #check_v=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+    check_v=$( echo $response_check_v | grep -o "true" )
+    if [[ $check_v == 'true' ]]; then 
       if [ $loadtype == '1' ]; then
         echo "Certificate New Version."
       fi
-      if [ "$(uname -a | grep el8)" ]; then
-        check_file=$( echo $response_check_v | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
-      else
-        check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
-      fi
-
-      if [ $check_file == 'True' ]; then
+      #check_file=$( echo $response_check_v | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+      check_file=$( echo $response_check_v | grep -o "true" )
+      if [[ $check_file == 'true' ]]; then
           echo "Download certificate..."
           read -p "E-mail ict portal ($EMAIL_ICTPORTAL): " email
           read -s -p "Password ict portal : " password
@@ -74,17 +67,14 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
           --data username=${email} \
           --data password=${password}
         )
-        if [ "$(uname -a | grep el8)" ]; then
-          checkLogin=$( echo $response | python3 -c "import sys, json; print json.load(sys.stdin)['ok']")
-        else
-          checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
-        fi
-        if [ $checkLogin == 'True' ]; then
-          if [ "$(uname -a | grep el8)" ]; then
-          token=$( echo $response | python3 -c "import sys, json; print json.load(sys.stdin)['token']")
-          else
-          token=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['token']")
-          fi
+        #checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
+        checkLogin=$( echo $response_check_v | grep -o "true" )
+        if [[ $checkLogin == 'true' ]]; then
+          
+          IFS=':' read -ra ADDR <<< "$response"
+          IFS='"' read -ra ADDR2 <<< "${ADDR[2]}"
+          token=${ADDR2[1]}
+          
           curl --request GET \
           --url https://hisgateway.moph.go.th/api/api/cert \
           --header 'Content-Type: application/x-www-form-urlencoded' \
