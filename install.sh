@@ -22,22 +22,24 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
             cd his-gateway
         fi
 
-        if ! [ -x "$(command -v python)" ]; then
-            sudo yum install python -y
-        fi
+        # if ! [ -x "$(command -v python)" ]; then
+        #     sudo yum install python -y
+        # fi
 
         if ! [ -x "$(command -v docker)" ]; then
-            echo 'install docker'
+            echo 'Installing docker...'
             sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
             sudo yum install -y yum-utils
             sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             sudo yum install -y docker-ce docker-ce-cli containerd.io
+            echo "Starting docker..."
+            sleep 3
             sudo systemctl start docker
             sudo systemctl enable docker
         fi
     elif [ "$(uname -a | grep el8)" ]; then
         if ! [ -x "$(command -v git)" ]; then
-            echo 'install git'
+            echo 'Installing git...'
             sudo dnf install -y git
             cd ..
             mv -r his-gateway his-gateway-no-git
@@ -45,12 +47,12 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
             cd his-gateway
         fi
 
-        if ! [ -x "$(command -v python3)" ]; then
-            sudo dnf install python3 -y
-        fi
+        # if ! [ -x "$(command -v python3)" ]; then
+        #     sudo dnf install python3 -y
+        # fi
 
         if ! [ -x "$(command -v docker)" ]; then
-            echo 'install docker'
+            echo 'Installing docker...'
             sudo dnf install -y unzip zip wget dialog git net-tools chrony 
             sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
             sudo dnf install -y --allowerasing docker-ce docker-ce-cli containerd.io
@@ -59,7 +61,7 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
         fi
     elif [ "$(uname -a | grep Ubuntu)" ]; then
          if ! [ -x "$(command -v git)" ]; then
-            echo 'install git'
+            echo 'Installing git...'
             sudo apt-get install -y git
             cd ..
             mv -r his-gateway his-gateway-no-git
@@ -67,12 +69,12 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
             cd his-gateway
         fi
 
-        if ! [ -x "$(command -v python)" ]; then
-            sudo apt-get install python -y
-        fi
+        # if ! [ -x "$(command -v python)" ]; then
+        #     sudo apt-get install python -y
+        # fi
 
         if ! [ -x "$(command -v docker)" ]; then
-            echo 'install docker'
+            echo 'Installing docker...'
             sudo apt-get remove docker docker-engine docker.io containerd runc
             sudo apt-get install ca-certificates curl gnupg lsb-release
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
