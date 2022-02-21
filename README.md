@@ -257,13 +257,12 @@ centOS8
 ![QR](https://qr-official.line.me/sid/M/992qwkma.png)
 
 Domain (IP) -
-kafka1.moph.go.th (203.157.100.45)
+kafka1.moph.go.th (203.157.100.45-47)
+broker1-7.kafka1.moph.go.th (203.157.100.75-82)
 mqtt.h4u.moph.go.th (203.157.103.140)
 Port ขาออก -
 9093
 19093
-31888
-31990-32000 
 ---
 ทดสอบการเชื่อมต่อ broker ด้วยคำสั่ง nc -vz kafka1.moph.go.th 19093 
 หรือ docker run -it --rm appropriate/nc -vz kafka1.moph.go.th 19093
