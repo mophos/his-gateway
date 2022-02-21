@@ -15,19 +15,20 @@
   <p>
 
    1. Install plugin
-   	- CentOS:
-           ```
-           sudo yum install wal2json<version>
-           ```
-   	- Ubuntu:
-     	    ```
-           sudo apt-get install postgresql-<version>-wal2json
-           ```
+- CentOS:
+```
+sudo yum install wal2json<version>
+```
+- Ubuntu:
+```
+sudo apt-get install postgresql-<version>-wal2json
+```
 
        **example** Postgres V.13: `wal2json13` | `postgresql-13-wal2json`
 
-       ***ref:*** [htps://github.com/eulerto/wal2json](htps://github.com/eulerto/wal2json)
-   2. Configuration options in postgresql.conf:
+ref: [https://github.com/eulerto/wal2json](https://github.com/eulerto/wal2json)
+
+    2. Configuration options in postgresql.conf:
        ```
        wal_level = logical;
        max_replication_slots = 10;
