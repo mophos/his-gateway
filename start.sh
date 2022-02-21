@@ -23,7 +23,7 @@ if [  "$(docker ps -a)" ]; then
             docker-compose  up -d
         else
             ./update.sh   
-            docker-compose  up -d
+            # docker-compose  up -d
         fi
     else
     echo 'Please confit ENV  ./set-env.sh'
