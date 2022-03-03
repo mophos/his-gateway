@@ -15,6 +15,7 @@ if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]
     git pull
     cd hisgateway-docker
     docker-compose down
+    git checkout -- .
     git pull
     docker pull mophos/hisgateway-client-web
     docker pull mophos/hisgateway-client-api
