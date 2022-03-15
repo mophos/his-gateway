@@ -246,6 +246,9 @@ centOS8
 - Add Connector : [https://youtu.be/0UAA4l4sHUc](https://youtu.be/0UAA4l4sHUc)
 ---
  ## การอัพเดท
+ ### last version
+1. run ไฟล์ update.sh
+ ### old version
 1. เข้าไปในโฟลเดอร์ hisgateway-docker
 2. docker-compose down
 3. git pull origin main หรือ git pull
