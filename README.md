@@ -197,7 +197,7 @@ yum install git -y
   
 centOS8
 ```
-    dnf install git -y
+dnf install git -y
 ```
   
 2.Download HIS-Gateway
