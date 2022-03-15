@@ -1,4 +1,5 @@
 echo 'Start Download Certificate...'
+option=$1
 if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
   if  [ "$(uname -a | grep el7)" ]; then
      if ! [ -x "$(command -v curl)" ]; then 
@@ -26,7 +27,9 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
     fi
   fi
  
-
+  if [[ $option =~ ^(--force)$ ]]; then
+    rm -rf ./cert/version
+  fi
   set -o allexport; source "./hisgateway-docker/.env"; set +o allexport
   if [ -f "./cert/version" ]; then
       version=`cat ./cert/version`

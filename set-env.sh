@@ -29,6 +29,7 @@ if ! [ -f "./hisgateway-docker/.env" ]  || [[ $option =~ ^(set)$ ]] || [[ $optio
         port=`sed '/^PORT=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
         secretkey=`sed '/^SECRET_KEY=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
         email=`sed '/^EMAIL_ICTPORTAL=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
+        password=`sed '/^PASSWORD=/!d;' hisgateway-docker/.env | awk -F '=' '{print $2}'`
         
     else
         hospcode="12345"
@@ -36,6 +37,7 @@ if ! [ -f "./hisgateway-docker/.env" ]  || [[ $option =~ ^(set)$ ]] || [[ $optio
         port="80"
         secretkey="$(echo $(date +%s) | md5sum | head -c 20; echo;)"
         email=""
+        password=""
     fi
     echo 'Config..'
     echo 'รหัสโรงพยาบาล'
@@ -67,7 +69,7 @@ HOSPCODE=${HOSPCODE}
 GROUP=${GROUP}
 
 # แก้ไข 'PPPPP' ให้เป็น รหัสของ cert (ในไฟล์ 'password_xxxxx.txt')
-PASSWORD=PPPPP
+PASSWORD=${password}
 
 # ตั้งค่า 'port' สำหรับเปิดเว็บ
 PORT=${PORT}
