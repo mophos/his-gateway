@@ -237,7 +237,7 @@ dnf install git -y
    - ในส่วน keystore part และ truststore part
        แก้ไข `xxxxx` ให้เป็น รหัสโรงพยาบาล
    - ในส่วน keystore password และ truststore password
-       นำ password จากในไฟล์ `password_xxxxx.txt` มาใส่
+       นำ password จากในไฟล์ `password_xxxxx.txt` มาใส่ หรือใช้คำสั่งเพื่อดู ./set-env.sh --show
 ---
 ## วิดีโอสอนติดตั้งในส่วนต่างๆ
 - Install docker cent: [https://youtu.be/7RBvP7jhhSk](https://youtu.be/7RBvP7jhhSk)
