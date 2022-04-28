@@ -71,7 +71,7 @@ if [[ -d "./hisgateway-docker"  &&  -f "./hisgateway-docker/.env" ]]; then
           --data password=${password}
         )
         #checkLogin=$( echo $response | python -c "import sys, json; print json.load(sys.stdin)['ok']")
-        checkLogin=$( echo $response_check_v | grep -o "true" )
+        checkLogin=$( echo $response | grep -o "true" )
         if [[ $checkLogin == 'true' ]]; then
           
           IFS=':' read -ra ADDR <<< "$response"
