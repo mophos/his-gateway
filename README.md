@@ -197,7 +197,7 @@ yum install git -y
   
 centOS8
 ```
-    dnf install git -y
+dnf install git -y
 ```
   
 2.Download HIS-Gateway
@@ -237,7 +237,7 @@ centOS8
    - ในส่วน keystore part และ truststore part
        แก้ไข `xxxxx` ให้เป็น รหัสโรงพยาบาล
    - ในส่วน keystore password และ truststore password
-       นำ password จากในไฟล์ `password_xxxxx.txt` มาใส่
+       นำ password จากในไฟล์ `password_xxxxx.txt` มาใส่ หรือใช้คำสั่งเพื่อดู ./set-env.sh --show
 ---
 ## วิดีโอสอนติดตั้งในส่วนต่างๆ
 - Install docker cent: [https://youtu.be/7RBvP7jhhSk](https://youtu.be/7RBvP7jhhSk)
@@ -247,6 +247,9 @@ centOS8
 - Add Connector : [https://youtu.be/0UAA4l4sHUc](https://youtu.be/0UAA4l4sHUc)
 ---
  ## การอัพเดท
+ ### script version
+1. run ไฟล์ update.sh
+ ### manual version
 1. เข้าไปในโฟลเดอร์ hisgateway-docker
 2. docker-compose down
 3. git pull origin main หรือ git pull
