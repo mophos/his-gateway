@@ -79,6 +79,8 @@ PATH_CERT=../cert
 
 PATH_DATA=../data
 
+PATH_DNS=config/resolv.conf
+
 BROKER_URL=kafka1.moph.go.th:19093
 
 SECRET_KEY=${SECRET_KEY}
