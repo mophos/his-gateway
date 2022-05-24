@@ -10,7 +10,7 @@ if [[ $option =~ ^(help)$ || $option =~ ^(--help)$ ]]; then
         exit 1
 fi
 
-if ! [[ $option =~ ^(help)$ || $option =~ ^(--help)$ || $option =~ ^(--skip)$ || $option =~ "" ]]; then
+if ! [[ $option =~ ^(help)$ || $option =~ ^(--help)$ || $option =~ ^(--only)$ || $option =~ "" ]]; then
     echo "Not found option"
     ./start.sh --help
     exit 1;
@@ -22,7 +22,7 @@ if [  "$(docker ps -a)" ]; then
         if [[ $option =~ ^(--only)$ && -f "./cert/version" ]]; then
             docker-compose  up -d
         else
-            ./update.sh   
+            ../update.sh   
             # docker-compose  up -d
         fi
     else
