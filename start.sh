@@ -18,11 +18,11 @@ fi
 if [  "$(docker ps -a)" ]; then
 
     if [[ -d "./hisgateway-docker" && -f "./hisgateway-docker/.env"  ]]; then
+        if [[ $option =~ ^(--only)$ && -f "./hisgateway-docker/cert/version" ]]; then
             cd hisgateway-docker
-        if [[ $option =~ ^(--only)$ && -f "./cert/version" ]]; then
             docker-compose  up -d
         else
-            ../update.sh   
+            ./update.sh   
             # docker-compose  up -d
         fi
     else
