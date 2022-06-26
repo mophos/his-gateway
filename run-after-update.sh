@@ -1,6 +1,6 @@
 version_old=$1
 version_new=`cat ./script.version`
-if  [[ $version_old == "20230215" ]]; then
+if  [[ $version_old == "20220215" ]]; then
     ./set-env.sh --force
     echo ""
     echo "Please Add New Connector"
