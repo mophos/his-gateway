@@ -12,7 +12,12 @@ fi
 ./load-cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     git checkout -- .
+    version_old=`cat ./script.version`
     git pull
+    version_new=`cat ./script.version`
+    if  ! [[ $version_old == $version_new ]]; then
+        ./run-after-update.sh $version_old
+    fi
     cd hisgateway-docker
     docker-compose down
     git checkout -- .

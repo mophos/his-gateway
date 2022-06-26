@@ -89,10 +89,10 @@ EMAIL_ICTPORTAL=${EMAIL_ICTPORTAL}
 
 EOF
 echo;
-echo "Please Open firewall for open website."
-echo;
-echo "Ex. \tfirewall-cmd --permanent --add-port=${PORT}/tcp"
-echo "\tfirewall-cmd --reload"
+# echo "Please Open firewall for open website."
+# echo;
+# echo "Ex. \tfirewall-cmd --permanent --add-port=${PORT}/tcp"
+# echo "\tfirewall-cmd --reload"
 else
     echo 'Set new ENV type "./set-env.sh --force"'
 fi
