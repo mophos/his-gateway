@@ -81,7 +81,7 @@ PATH_DATA=../data
 
 PATH_DNS=./config/resolv.conf
 
-BROKER_URL=kafka1.moph.go.th:19093
+BROKER_URL=broker1.kafka1.moph.go.th:19093,broker2.kafka1.moph.go.th:19093,broker3.kafka1.moph.go.th:19093,broker4.kafka1.moph.go.th:19093,broker5.kafka1.moph.go.th:19093,broker6.kafka1.moph.go.th:19093,broker7.kafka1.moph.go.th:19093,broker8.kafka1.moph.go.th:19093,broker9.kafka1.moph.go.th:19093
 
 SECRET_KEY=${SECRET_KEY}
 
