@@ -1,6 +1,6 @@
 # ขั้นตอนการติดตั้ง และขอใช้งาน
 ## สิทธิ์เข้าใช้งาน 
-1. ส่งแบบฟอร์มขอใช้บริการ([download](https://moph.cc/_aHErjLjJ)) ผ่านทางเมล saraban0212@moph.go.th และ cc: standard@moph.mail.go.th
+1. ส่งแบบฟอร์มขอใช้บริการ([download](https://moph.cc/_aHErjLjJ)) ผ่านทางเมล standard@moph.mail.go.th
 2. สมัคร http://ictportal.moph.go.th หากเคยสมัครแล้วใช้ได้เลย
 ---
 <br>
