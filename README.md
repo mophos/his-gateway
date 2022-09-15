@@ -248,7 +248,7 @@ dnf install git -y
 ---
  ## การอัพเดท
  ### script version
-1. run ไฟล์ update.sh
+1. run ไฟล์ update.sh ที่อยู่ในโฟลเดอร์ his-gateway
  ### manual version
 1. เข้าไปในโฟลเดอร์ hisgateway-docker
 2. docker-compose down
