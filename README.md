@@ -250,7 +250,7 @@ dnf install git -y
  ### script version
 1. run ไฟล์ update.sh
  ### manual version
-1. เข้าไปในโฟลเดอร์ hisgateway-docker
+1. เข้าไปในโฟลเดอร์ his-gateway
 2. docker-compose down
 3. git pull origin main หรือ git pull
 4. run ไฟล์ update.sh
