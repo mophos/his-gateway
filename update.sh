@@ -9,7 +9,6 @@ if ! [ "$(git remote -v)" ]; then
     cd his-gateway
 fi
 
-./load-cert.sh
 if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]]; then
     git checkout -- .
     version_old=`cat ./script.version`
@@ -22,9 +21,7 @@ if [[ -d './hisgateway-docker' && -f './hisgateway-docker/docker-compose.yaml' ]
     docker-compose down
     git checkout -- .
     git pull
-    docker pull mophos/hisgateway-client-web
-    docker pull mophos/hisgateway-client-api
-    docker pull mophos/hisgateway-history-api
+    docker pull mophos/gw-api
     docker-compose up -d
     cd ..
 else

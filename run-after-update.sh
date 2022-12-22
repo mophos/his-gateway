@@ -1,21 +1,18 @@
 version_old=$1
-version_new=$(cat ./script.version)
-# if  [[ $version_old == "20220215" ]]; then
-#     ./set-env.sh --force
-#     echo ""
-#     echo "Please Add New Connector"
-#     echo "HISGW Version 2.1.0"
-#     echo "- update Kafka Version"
-#     echo "- change topic route"
-# fi
-if  [[ $version_old != $version_new ]]; then
-./set-env.sh --force
-echo ""
-echo "Please Remove and Add New Connector"
-echo "HISGW Version 2.2.0"
-echo "- add schema version"
-echo "- add line notify"
-echo "- add restart service"
-echo "- fix error record not key"
-echo "- fix bad word"
+version_new=`cat ./script.version`
+if  [[ $version_new != "20221215" ]]; then
+    docker stop connect
+    docker stop hisgateway-web
+    docker stop hisgateway-api
+    docker stop history-api
+    docker stop nginx
+
+    docker rmi mophos/hisgateway-client-web
+    docker rmi mophos/hisgateway-client-api
+    docker rmi mophos/hisgateway-history-api
+    docker rmi debezium/connect:1.7
+    docker network rm gw-network
+
+    echo " new HISGW Version minimal"
+    exit 1
 fi

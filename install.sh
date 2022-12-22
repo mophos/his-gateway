@@ -95,8 +95,6 @@ if  [ "$(uname -a | grep el7)" ] || [ "$(uname -a | grep el8)" ] || [ "$(uname -
         git clone https://github.com/mophos/hisgateway-docker.git
     fi
 
-    ./set-env.sh
-    ./load-cert.sh
     echo 'install Git,Docker,Docker-compose success.'
     echo 'run start.sh please.'
 else
